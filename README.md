@@ -22,6 +22,12 @@ Para el backend de Express:
 npm run backend
 ```
 
+o para desarrollo:
+
+```bash
+npm run backend:dev
+```
+
 Incluso se pueden ejecutar ambos a la vez con concurrently:
 
 ```bash

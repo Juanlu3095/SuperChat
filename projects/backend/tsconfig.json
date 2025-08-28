@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": "../",
+    "module": "nodenext",
+    "resolveJsonModule": false,
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "outDir": "../dist/api",
+    "sourceMap": true,
+    "types": [
+      "node"
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowImportingTsExtensions": false,
+    "noEmit": true // Esto hay que revisarlo, vaya a ser que al compilar no devuelva los archivos a /dist
+  }
+}

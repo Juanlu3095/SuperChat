@@ -1,14 +1,16 @@
-import express, { json } from 'express'
+import express, { json, Router } from 'express'
+import { MessageRouter } from './routes/MessageRouter.js'
 
-const app = express()
+const app = express() // App principal
+const api = Router() // Manejador de rutas
 
 app.use(json())
 
 app.disable('x-powered-by')
 
-app.get('/api', (req, res) => {
-    res.send('Hello World')
-})
+api.use('/message', MessageRouter())
+
+app.use('/api', api)
 
 const PORT = 3000
 

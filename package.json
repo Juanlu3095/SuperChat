@@ -8,6 +8,8 @@
     "backend": "tsx projects/backend/src/app.ts",
     "backend:dev": "tsx --watch projects/backend/src/app.ts",
     "iniciar": "concurrently \"npm run frontend\" \"npm run backend:dev\"",
+    "db:migrate": "tsx --env-file .env projects/backend/src/database/migrations/migrations.js",
+    "db:seed": "tsx --env-file .env projects/backend/src/database/seeders/seeders.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -25,6 +27,7 @@
     "@angular/router": "^19.2.0",
     "@angular/ssr": "^19.2.15",
     "express": "^4.18.2",
+    "mongodb": "6.19.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

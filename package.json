@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "frontend": "ng serve",
-    "backend": "tsx projects/backend/src/app.ts",
-    "backend:dev": "tsx --watch projects/backend/src/app.ts",
+    "backend": "tsx --env-file .env projects/backend/src/server.js",
+    "backend:dev": "tsx --watch --env-file .env projects/backend/src/server.js",
     "iniciar": "concurrently \"npm run frontend\" \"npm run backend:dev\"",
     "db:migrate": "tsx --env-file .env projects/backend/src/database/migrations/migrations.js",
     "db:seed": "tsx --env-file .env projects/backend/src/database/seeders/seeders.js",

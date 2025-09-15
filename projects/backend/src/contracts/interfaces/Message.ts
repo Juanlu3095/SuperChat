@@ -1,5 +1,7 @@
+import { ObjectId } from "mongodb"
+
 export interface message {
-    id: string,
+    _id: ObjectId,
     nombre: string,
     apellidos: string,
     telefono: string,

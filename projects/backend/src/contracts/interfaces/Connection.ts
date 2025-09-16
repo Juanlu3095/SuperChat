@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 
 export interface ConnectionInterface {
-    mongoClient: MongoClient;
+    get client() : MongoClient
     connection: () => Promise<Db>
 }

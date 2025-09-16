@@ -14,7 +14,7 @@ export class CollectionSeeder {
             const collectionDB = database.collection(collection)
             const result = await collectionDB.insertMany(documents)
             console.log(`Se han añadido ${result.insertedCount} documento(s) a la colección ${collection}.`)
-            this.connection.mongoClient.close()
+            this.connection.client.close()
         } catch (error) {
             console.error(error)
         }

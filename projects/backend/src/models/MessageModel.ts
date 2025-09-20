@@ -41,11 +41,16 @@ export class MessageModel implements MessageModelInterface {
         }
     }
 
-    create = async (message: messageInput) => {
+    create = async (messageInput: messageInput) => {
         try {
             const db = await connection.connection()
             if (!db) return null
             const messagesCollection = await db.collection('messages')
+            const message = {
+                ...messageInput,
+                created_at: new Date().toLocaleDateString(),
+                updated_at: new Date().toLocaleDateString()
+            }
             const query = await messagesCollection.insertOne(message)
             return query.acknowledged
 
@@ -55,11 +60,15 @@ export class MessageModel implements MessageModelInterface {
         }
     }
 
-    patch = async ({ id, message }: { id: string, message: messageInput }) => {
+    patch = async ({ id, messageInput }: { id: string, messageInput: messageInput }) => {
         try {
             const db = await connection.connection()
             if (!db) return null
             const messagesCollection = await db.collection('messages')
+            const message = {
+                ...messageInput,
+                updated_at: new Date().toLocaleDateString()
+            }
             const query = await messagesCollection.updateOne({ _id: new ObjectId(id) }, { $set: message })
             return { found: query.matchedCount, result: query.modifiedCount }
         } catch (error) {

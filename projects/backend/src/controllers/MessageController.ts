@@ -42,7 +42,7 @@ export class MessageController {
         if (!id) return res.status(422).json({ message: 'No se ha proveído de un identificador para el mensaje.' })
         // Faltaría comprobar el input
 
-        const result = await this.messageModel.patch({ id, message: input })
+        const result = await this.messageModel.patch({ id, messageInput: input })
         if (result?.found !== 0 && result?.result !== 0) {
             return res.json({ message: 'Mensaje actualizado.' })
         } else if (result.found === 0){

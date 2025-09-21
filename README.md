@@ -16,7 +16,7 @@ Instala las dependencias:
 pnpm install
 ```
 
-Crea una base de datos de MongoDB y crea el archivo .env con la configuración de .env.example y rellena los datos.
+Crea una conexión en MongoDB, crea el archivo .env con la configuración de .env.example y rellena los datos.
 A continuación podemos crear la base de datos:
 
 ```bash
@@ -40,23 +40,23 @@ ng serve
 o
 
 ```bash
-npm run frontend
+pnpm run frontend
 ```
 
 Para el backend de Express:
 
 ```bash
-npm run backend
+pnpm run backend
 ```
 
 o para desarrollo:
 
 ```bash
-npm run backend:dev
+pnpm run backend:dev
 ```
 
 Incluso se pueden ejecutar ambos a la vez con concurrently:
 
 ```bash
-npm run iniciar
+pnpm run iniciar
 ```

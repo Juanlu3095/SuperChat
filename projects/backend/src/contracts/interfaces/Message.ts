@@ -7,8 +7,8 @@ export interface message {
     telefono: string,
     email: string,
     contenido: string,
-    created_at: Date,
-    updated_at: Date
+    created_at: string,
+    updated_at: string
 }
 
 export type messageInput = Omit<message, 'id'|'created_at'|'updated_at'>

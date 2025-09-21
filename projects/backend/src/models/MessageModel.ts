@@ -5,17 +5,24 @@ import { Connection } from "../database/connection.js"
 
 const { DB_NAME, DB_USER, DB_PASS } = process.env
 
-const connection = new Connection(DB_USER, DB_PASS, DB_NAME)
-// const db = await connection.connection() // Hacer una función para esto
+async function messageCollection() {
+    try {
+        const connection = new Connection(DB_USER, DB_PASS, DB_NAME)
+        const db = await connection.connection()
+        if (!db) return null
+        return db.collection<message>('messages')
+        
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 export class MessageModel implements MessageModelInterface {
 
     getAll = async () => {
         try {
-            const db = await connection.connection()
-            if (!db) return null
-            const messagesCollection = await db.collection<message>('messages')
-            const messages = await messagesCollection.find().toArray()
+            const collection = await messageCollection()
+            const messages = await collection.find().toArray()
             if (messages) {
                 return messages
             } else {
@@ -28,11 +35,9 @@ export class MessageModel implements MessageModelInterface {
 
     getById = async (id: string) => {
         try {
-            const db = await connection.connection()
-            if (!db) return null
-            const messagesCollection = await db.collection<message>('messages')
+            const collection = await messageCollection()
             const query = { _id: new ObjectId(id)} // Las ids de MongoDB son tratadas como objetos
-            const message = await messagesCollection.findOne(query)
+            const message = await collection.findOne(query)
             return message
     
         } catch (error) {
@@ -43,15 +48,13 @@ export class MessageModel implements MessageModelInterface {
 
     create = async (messageInput: messageInput) => {
         try {
-            const db = await connection.connection()
-            if (!db) return null
-            const messagesCollection = await db.collection('messages')
+            const collection = await messageCollection()
             const message = {
                 ...messageInput,
                 created_at: new Date().toLocaleDateString(),
                 updated_at: new Date().toLocaleDateString()
             }
-            const query = await messagesCollection.insertOne(message)
+            const query = await collection.insertOne(message)
             return query.acknowledged
 
         } catch (error) {
@@ -62,14 +65,12 @@ export class MessageModel implements MessageModelInterface {
 
     patch = async ({ id, messageInput }: { id: string, messageInput: messageInput }) => {
         try {
-            const db = await connection.connection()
-            if (!db) return null
-            const messagesCollection = await db.collection('messages')
+            const collection = await messageCollection()
             const message = {
                 ...messageInput,
                 updated_at: new Date().toLocaleDateString()
             }
-            const query = await messagesCollection.updateOne({ _id: new ObjectId(id) }, { $set: message })
+            const query = await collection.updateOne({ _id: new ObjectId(id) }, { $set: message })
             return { found: query.matchedCount, result: query.modifiedCount }
         } catch (error) {
             console.error(error)
@@ -79,10 +80,8 @@ export class MessageModel implements MessageModelInterface {
 
     delete = async (id: string) => {
         try {
-            const db = await connection.connection()
-            if (!db) return null
-            const messagesCollection = await db.collection('messages')
-            const result = await messagesCollection.deleteOne({ _id: new ObjectId(id) })
+            const collection = await messageCollection()
+            const result = await collection.deleteOne({ _id: new ObjectId(id) })
             return result.deletedCount
         } catch (error) {
             console.error(error)
@@ -92,11 +91,9 @@ export class MessageModel implements MessageModelInterface {
 
     deleteSelection = async (ids: string[]) => {
         try {
-            const db = await connection.connection()
-            if (!db) return null
-            const messagesCollection = await db.collection('messages')
+            const collection = await messageCollection()
             const idsToDelete = ids.map((id: string) => new ObjectId(id)) // Se transforman las ids en objetos para MongoDB
-            const result = await messagesCollection.deleteMany({ _id: { $in: idsToDelete }})
+            const result = await collection.deleteMany({ _id: { $in: idsToDelete }})
             return result.deletedCount
         } catch (error) {
             console.error(error)

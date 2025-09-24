@@ -1,4 +1,4 @@
-import { messageInput } from "backend/src/contracts/interfaces/Message.js";
+import { messageInput } from "../../contracts/interfaces/Message.js";
 import { Connection } from "../connection.js";
 import { CollectionSeeder } from "./CollectionSeeder.js";
 

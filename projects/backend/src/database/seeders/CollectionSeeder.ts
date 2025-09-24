@@ -1,4 +1,4 @@
-import { ConnectionInterface } from 'backend/src/contracts/interfaces/Connection.js'
+import { ConnectionInterface } from '../../contracts/interfaces/Connection.js'
 import type { Document } from 'mongodb'
 
 export class CollectionSeeder {

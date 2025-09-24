@@ -11,4 +11,4 @@ export interface message {
     updated_at: string
 }
 
-export type messageInput = Omit<message, 'id'|'created_at'|'updated_at'>
+export type messageInput = Omit<message, '_id'|'created_at'|'updated_at'>

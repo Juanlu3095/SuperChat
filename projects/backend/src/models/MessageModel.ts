@@ -1,4 +1,4 @@
-import { ObjectId } from "mongodb"
+import { ObjectId, OptionalId } from "mongodb"
 import { message, messageInput } from "../contracts/interfaces/Message.js"
 import { MessageModelInterface } from "../contracts/interfaces/MessageModel.js"
 import { Connection } from "../database/connection.js"
@@ -10,7 +10,7 @@ async function messageCollection() {
         const connection = new Connection(DB_USER, DB_PASS, DB_NAME)
         const db = await connection.connection()
         if (!db) return null
-        return db.collection<message>('messages')
+        return db.collection<OptionalId<message>>('messages') // OptionalId hace opcional _id para operaciones insert en mongodb
         
     } catch (error) {
         console.error(error)

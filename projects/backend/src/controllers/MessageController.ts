@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { MessageModelInterface } from "../contracts/interfaces/MessageModel.js"
-import { messageInput } from "../contracts/interfaces/Message.js"
+import { validateMessage } from "../schemas/MessageSchema.js"
 
 export class MessageController {
     private messageModel: MessageModelInterface
@@ -24,10 +24,13 @@ export class MessageController {
     }
 
     create = async (req: Request, res: Response) => {
-        const input: messageInput = req.body
-        // Realizar comprobación del schema para error 422
+        const input = validateMessage(req.body)
 
-        const result = await this.messageModel.create(input)
+        if (!input.success) {
+            return res.status(422).json({ message: 'Mensaje no válido.', error: input.errors })
+        }
+
+        const result = await this.messageModel.create(input.data)
         if(result) {
             return res.json({ message: 'Mensaje enviado.' })
         } else {
@@ -37,12 +40,12 @@ export class MessageController {
 
     update = async (req: Request, res: Response) => {
         const { id } = req.params
-        const input: messageInput = req.body
-
         if (!id) return res.status(422).json({ message: 'No se ha proveído de un identificador para el mensaje.' })
-        // Faltaría comprobar el input
+        
+        const input = validateMessage(req.body)
+        if (!input.success) return res.status(422).json({ message: 'Mensaje no válido', error: input.errors })
 
-        const result = await this.messageModel.patch({ id, messageInput: input })
+        const result = await this.messageModel.patch({ id, messageInput: input.data })
         if (result?.found !== 0 && result?.result !== 0) {
             return res.json({ message: 'Mensaje actualizado.' })
         } else if (result.found === 0){

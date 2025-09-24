@@ -1,1 +1,18 @@
-<p>home works!</p>
+<h2>¿Tienes alguna duda?</h2>
+
+<form [formGroup]="contactForm">
+    <label for="nombre">Nombre</label>
+    <input type="text" formControlName="nombre">
+
+    <label for="apellidos">Apellidos</label>
+    <input type="text" formControlName="apellidos">
+
+    <label for="telefono">Teléfono</label>
+    <input type="text" formControlName="telefono">
+
+    <label for="email">Correo electrónico</label>
+    <input type="text" formControlName="email">
+
+    <label for="contenido">Consulta</label>
+    <input type="text" formControlName="contenido">
+</form>

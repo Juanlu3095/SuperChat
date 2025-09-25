@@ -2,17 +2,19 @@
 
 <form [formGroup]="contactForm">
     <label for="nombre">Nombre</label>
-    <input type="text" formControlName="nombre">
+    <input type="text" formControlName="nombre" required>
 
     <label for="apellidos">Apellidos</label>
-    <input type="text" formControlName="apellidos">
+    <input type="text" formControlName="apellidos" required>
 
     <label for="telefono">Teléfono</label>
-    <input type="text" formControlName="telefono">
+    <input type="text" formControlName="telefono" required>
 
     <label for="email">Correo electrónico</label>
-    <input type="text" formControlName="email">
+    <input type="text" formControlName="email" required>
 
     <label for="contenido">Consulta</label>
-    <input type="text" formControlName="contenido">
+    <input type="text" formControlName="contenido" required>
+
+    <button (click)="submitForm()">Enviar</button>
 </form>

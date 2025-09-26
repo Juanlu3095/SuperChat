@@ -10,7 +10,8 @@
     "iniciar": "concurrently \"npm run frontend\" \"npm run backend:dev\"",
     "db:migrate": "tsx --env-file .env projects/backend/src/database/migrations/migrations.js",
     "db:seed": "tsx --env-file .env projects/backend/src/database/seeders/seeders.js",
-    "build": "ng build",
+    "build:frontend": "ng build",
+    "build:backend": "npx tsc -p projects/backend",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:frontend": "node dist/frontend/server/server.mjs"

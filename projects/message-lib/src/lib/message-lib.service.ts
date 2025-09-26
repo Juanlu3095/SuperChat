@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { messageInput } from '../../../shared-types/src/public-api';
+import { Observable } from 'rxjs';
+import { messageInput } from 'shared-types';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class MessageLibService {
 
   public getMessage () {}
 
-  public postMessage (message: messageInput) {
+  public postMessage (message: messageInput): Observable<any> {
     return this.http.post(`${this.endpoint}/message`, message)
   }
 }

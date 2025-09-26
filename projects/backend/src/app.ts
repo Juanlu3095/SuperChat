@@ -8,7 +8,7 @@ export const createApp = ({ messageModel }: { messageModel: MessageModelInterfac
     const api = Router() // Manejador de rutas
 
     var corsOptions = {
-        origin: 'http://localhost:4200',
+        origin: ['http://localhost:4200', 'http://localhost:4000'],
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
     }
     

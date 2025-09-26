@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": "../",
+    "baseUrl": "",
     "module": "nodenext",
     "resolveJsonModule": false,
     "esModuleInterop": true,
+    "rootDir": "src", // Indica url base desde la que empieza a buscar los .ts para compilar
     "target": "ESNext",
-    "outDir": "../dist/api",
+    "outDir": "../../dist/api",
     "sourceMap": true,
     "types": [
       "node"
@@ -13,6 +14,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowImportingTsExtensions": false,
-    "noEmit": true // Esto hay que revisarlo, vaya a ser que al compilar no devuelva los archivos a /dist
-  }
+    "noEmit": false // Si esto es true, los archivos no se compilan a .js
+  },
+  "exclude": ["test/**/*"]
 }

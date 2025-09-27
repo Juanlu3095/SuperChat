@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MessageLibService } from '../../../../../message-lib/src/public-api';
+import { MessageLibService } from 'message-lib';
 
 @Component({
   selector: 'app-home',

@@ -16,10 +16,12 @@
     "moduleResolution": "bundler",
     "paths": {
       "message-lib": [
-        "./dist/message-lib"
+        "./projects/message-lib/src/public-api.ts" // desarrollo
+        // "./dist/message-lib" // producción
       ],
       "shared-types": [
-        "./dist/shared-types"
+        "./projects/shared-types/src/public-api.ts" // desarrollo
+        // "./dist/shared-types" producción
       ]
     },
     "importHelpers": true,

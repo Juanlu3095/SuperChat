@@ -3,6 +3,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { ENV_CONFIG } from 'shared-types';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +13,10 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withFetch()
-    )
+    ),
+    {
+      provide: ENV_CONFIG,
+      useValue: environment // Inyección de las variables de entorno de Angular desde AppConfig
+    }
   ]
 };

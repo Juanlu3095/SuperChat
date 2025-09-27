@@ -1,16 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { messageInput } from 'shared-types';
+import { messageInput, ENV_CONFIG, EnvironmentConfig } from 'shared-types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageLibService {
 
-  endpoint = "http://localhost:3000/api"
+  endpoint: string
 
-  constructor(private http: HttpClient) { }
+  constructor(@Inject(ENV_CONFIG) private config: EnvironmentConfig, private http: HttpClient) {
+    this.endpoint = this.config.apiendpoint
+  }
 
   public getMessages () {}
 

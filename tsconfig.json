@@ -15,14 +15,14 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "paths": {
+      "shared-types": [
+        "./projects/shared-types/src/public-api.ts" // desarrollo
+        // "./dist/shared-types" // producción
+      ],
       "message-lib": [
         "./projects/message-lib/src/public-api.ts" // desarrollo
         // "./dist/message-lib" // producción
       ],
-      "shared-types": [
-        "./projects/shared-types/src/public-api.ts" // desarrollo
-        // "./dist/shared-types" producción
-      ]
     },
     "importHelpers": true,
     "target": "ES2022",

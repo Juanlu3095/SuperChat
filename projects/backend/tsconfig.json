@@ -4,7 +4,7 @@
     "module": "nodenext",
     "resolveJsonModule": false,
     "esModuleInterop": true,
-    "rootDir": "src", // Indica url base desde la que empieza a buscar los .ts para compilar
+    // "rootDir": "src", // Indica url base desde la que empieza a buscar los .ts para compilar. Afecta a los paths
     "target": "ESNext",
     "outDir": "../../dist/api",
     "sourceMap": true,
@@ -14,7 +14,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowImportingTsExtensions": false,
-    "noEmit": false // Si esto es true, los archivos no se compilan a .js
+    "noEmit": false, // Si esto es true, los archivos no se compilan a .js
+    "paths": {
+      "shared-types": ["../shared-types/src/public-api.js"]
+    }
   },
-  "exclude": ["test/**/*"]
+  "exclude": ["test/**/*"],
 }

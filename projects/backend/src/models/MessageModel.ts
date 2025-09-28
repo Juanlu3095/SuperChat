@@ -1,5 +1,5 @@
 import { ObjectId, OptionalId } from "mongodb"
-import { message, messageInput } from "../contracts/interfaces/Message.js"
+import { message, messageInput } from 'shared-types'
 import { MessageModelInterface } from "../contracts/interfaces/MessageModel.js"
 import { Connection } from "../database/connection.js"
 

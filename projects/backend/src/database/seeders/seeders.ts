@@ -1,4 +1,4 @@
-import { messageInput } from "../../contracts/interfaces/Message.js";
+import { messageInput } from "shared-types";
 import { Connection } from "../connection.js";
 import { CollectionSeeder } from "./CollectionSeeder.js";
 

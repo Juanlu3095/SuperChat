@@ -1,22 +1,32 @@
 import express, { json, Router } from 'express'
-import cors from 'cors'
+import { applycors } from './middlewares/cors.js'
 import { MessageRouter } from './routes/MessageRouter.js'
 import { MessageModelInterface } from './contracts/interfaces/MessageModel.js'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 
 export const createApp = ({ messageModel }: { messageModel: MessageModelInterface }) => {
     const app = express() // App principal
     const api = Router() // Manejador de rutas
-
-    var corsOptions = {
-        origin: ['http://localhost:4200', 'http://localhost:4000'],
-        optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-    }
-    
-    app.use(cors(corsOptions))
-
-    app.use(json())
     
     app.disable('x-powered-by')
+    
+    app.use(applycors())
+
+    app.use(json())
+
+    const { DB_PASS, DB_USER, SESSION_SECRET_KEY } = process.env
+
+    app.use(session({
+        secret: SESSION_SECRET_KEY,
+        resave: false,
+        saveUninitialized: false,
+        store: new MongoStore({
+            collectionName: 'sessions',
+            ttl: 60,
+            mongoUrl: `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.j9ccw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+        })
+    }))
     
     api.use('/message', MessageRouter(messageModel))
     

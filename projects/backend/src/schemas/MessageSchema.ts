@@ -1,4 +1,4 @@
-import { messageInput } from "../contracts/interfaces/Message.js";
+import { messageInput } from "shared-types";
 import { isString, validateEmail, validatePhoneNumber } from "../utils/validations.js";
 
 export const validateMessage = (message: messageInput) => {

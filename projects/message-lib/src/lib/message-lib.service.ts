@@ -14,7 +14,9 @@ export class MessageLibService {
     this.endpoint = this.config.apiendpoint
   }
 
-  public getMessages () {}
+  public getMessages () {
+    return this.http.get(`${this.endpoint}/message`)
+  }
 
   public getMessage () {}
 

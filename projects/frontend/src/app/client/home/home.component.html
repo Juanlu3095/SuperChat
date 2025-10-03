@@ -18,3 +18,8 @@
 
     <button (click)="submitForm()">Enviar</button>
 </form>
+
+<h2>Datos guardados: </h2>
+@for (item of data; track $index) {
+    {{ item.nombre }}
+}

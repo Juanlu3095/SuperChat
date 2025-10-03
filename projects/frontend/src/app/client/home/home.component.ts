@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageLibService } from 'message-lib';
+import { message } from 'shared-types';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,9 @@ import { MessageLibService } from 'message-lib';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  data: message[] = []
+
   contactForm = new FormGroup({
     nombre: new FormControl<string>('', {
       nonNullable: true,
@@ -34,6 +37,10 @@ export class HomeComponent {
 
   constructor(private messageService: MessageLibService) {}
 
+  ngOnInit(): void {
+    this.getDBvalues()
+  }
+
   submitForm () {
     if(this.contactForm.valid) {
       const message = {
@@ -52,5 +59,17 @@ export class HomeComponent {
         }
       })
     }
+  }
+
+  getDBvalues () {
+    this.messageService.getMessages().subscribe({
+      next: (respuesta: any) => {
+        console.log(respuesta)
+        this.data = respuesta.data
+      },
+      error: (error) => {
+        console.error(error)
+      }
+    })
   }
 }

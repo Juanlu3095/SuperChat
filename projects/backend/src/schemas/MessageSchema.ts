@@ -1,5 +1,6 @@
 import { messageInput } from "shared-types";
 import { isString, validateEmail, validatePhoneNumber } from "../utils/validations.js";
+import { escapeChar } from "../utils/utils.js";
 
 export const validateMessage = (message: messageInput) => {
 
@@ -46,7 +47,15 @@ export const validateMessage = (message: messageInput) => {
         result.errors.telefono = 'El campo telefono no tiene el formato correcto.'
     }
 
-    if (result.success) result.data = message // Se podría "sanitizar" los campos
+    if (result.success) {
+        result.data = {
+            nombre: escapeChar(message.nombre.trim()),
+            apellidos: escapeChar(message.apellidos.trim()),
+            contenido: escapeChar(message.contenido.trim()),
+            email: message.email.trim().toLowerCase(),
+            telefono: message.telefono.trim()
+        }
+    }
 
     return result
 }

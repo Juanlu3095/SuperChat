@@ -20,5 +20,5 @@ export const applycors = () =>
 
       return callback(new Error('Solicitud no permitida por CORS.'))
     },
-    credentials: true // para que el navegador acepte y guarde cookies enviadas por la api
-  })
+  credentials: true // para que el navegador acepte y guarde cookies enviadas por la api
+})

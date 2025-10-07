@@ -1,0 +1,17 @@
+<h2>Registro</h2>
+
+<form [formGroup]="registerForm">
+    <label for="nombre">Nombre de usuario</label>
+    <input type="text" formControlName="nombre" required>
+
+    <label for="email">Correo electrónico</label>
+    <input type="text" formControlName="email" required>
+
+    <label for="password">Contraseña</label>
+    <input type="password" formControlName="password" required>
+
+    <label for="password_confirmation">Repetir contraseña</label>
+    <input type="password" formControlName="password_confirmation" required>
+
+    <button (click)="createUser()">Enviar</button>
+</form>

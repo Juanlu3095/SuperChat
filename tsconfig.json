@@ -15,6 +15,10 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "paths": {
+      "auth-lib": [
+        "./projects/auth-lib/src/public-api.ts"
+        // "./dist/auth-lib" // producción
+      ],
       "shared-types": [
         "./projects/shared-types/src/public-api.ts" // desarrollo
         // "./dist/shared-types" // producción

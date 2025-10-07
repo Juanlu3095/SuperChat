@@ -1,8 +1,10 @@
 import { createApp } from "./app.js"
 import { MessageModel } from "./models/MessageModel.js"
+import { UserModel } from "./models/UserModel.js"
 
 const app = createApp({
-    messageModel: new MessageModel
+    messageModel: new MessageModel,
+    userModel: new UserModel
 })
 
 const PORT = process.env.PORT ?? 3000

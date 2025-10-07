@@ -1,1 +1,11 @@
-<p>login works!</p>
+<h2>Inicio de sesión</h2>
+
+<form [formGroup]="loginForm">
+    <label for="email">Correo electrónico</label>
+    <input type="text" formControlName="email" required>
+
+    <label for="password">Contraseña</label>
+    <input type="password" formControlName="password" required>
+
+    <button (click)="login()">Enviar</button>
+</form>

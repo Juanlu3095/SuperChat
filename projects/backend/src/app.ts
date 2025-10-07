@@ -1,11 +1,12 @@
 import express, { json, Router } from 'express'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 import { applycors } from './middlewares/cors.js'
 import { MessageRouter } from './routes/MessageRouter.js'
 import { MessageModelInterface } from './contracts/interfaces/MessageModel.js'
-import session from 'express-session'
-import MongoStore from 'connect-mongo'
+import { AuthRouter } from './routes/AuthRouter.js'
 
-export const createApp = ({ messageModel }: { messageModel: MessageModelInterface }) => {
+export const createApp = ({ messageModel, userModel }: { messageModel: MessageModelInterface, userModel: any }) => {
     const app = express() // App principal
     const api = Router() // Manejador de rutas
     
@@ -29,6 +30,7 @@ export const createApp = ({ messageModel }: { messageModel: MessageModelInterfac
     }))
     
     api.use('/message', MessageRouter(messageModel))
+    api.use('/auth', AuthRouter(userModel))
     
     app.use('/api', api)
 

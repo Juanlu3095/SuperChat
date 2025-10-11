@@ -32,7 +32,7 @@ export class MessageController {
 
         const result = await this.messageModel.create(input.data)
         if(result) {
-            return res.json({ message: 'Mensaje enviado.' })
+            return res.status(201).json({ message: 'Mensaje enviado.' })
         } else {
             return res.status(500).json({ message: 'Mensaje no enviado.' })
         }

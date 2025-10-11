@@ -21,7 +21,7 @@ export const hashPassword = (password: string): string => {
 }
 
 /**
- * It validates a password with a hashed password to confirm if they are the same. True if they are the same.+
+ * It validates a password with a hashed password to confirm if they are the same. True if they are the same.
  * @param {string} password The password the user puts on input.
  * @param {string} hashedPassword The hashed password in DB.
  * @returns {boolean}

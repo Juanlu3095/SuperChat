@@ -1,7 +1,7 @@
 import { OptionalId } from "mongodb"
 import { Connection } from "../database/connection.js"
 import { createUserInput, user } from "shared-types"
-import { UserModelInterface } from "src/contracts/interfaces/UserModel.js"
+import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
 
 const { DB_NAME, DB_USER, DB_PASS } = process.env
 

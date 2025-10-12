@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { hashPassword, validatePassword } from "../utils/encryption.js"
 import { validateUserLogin, validateUserRegister } from "../schemas/UserSchema.js"
 import { DatabaseValidation } from "../database/utils/databaseValidations.js"
-import { UserModelInterface } from "src/contracts/interfaces/UserModel.js"
+import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
 
 export class AuthController {
     private userModel: UserModelInterface

@@ -1,12 +1,13 @@
 import { Request, Response } from "express"
-import { hashPassword, validatePassword } from "../utils/crypto.js"
+import { hashPassword, validatePassword } from "../utils/encryption.js"
 import { validateUserLogin, validateUserRegister } from "../schemas/UserSchema.js"
 import { DatabaseValidation } from "../database/utils/databaseValidations.js"
+import { UserModelInterface } from "src/contracts/interfaces/UserModel.js"
 
 export class AuthController {
-    private userModel: any
+    private userModel: UserModelInterface
     
-    public constructor (userModel: any) {
+    public constructor (userModel: UserModelInterface) {
         this.userModel = userModel
     }
 

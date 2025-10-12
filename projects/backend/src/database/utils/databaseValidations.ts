@@ -1,4 +1,4 @@
-import { Collection, OptionalId } from "mongodb";
+import { OptionalId } from "mongodb";
 import { Connection } from "../connection.js";
 
 const { DB_NAME, DB_USER, DB_PASS } = process.env

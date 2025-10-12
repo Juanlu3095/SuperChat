@@ -5,8 +5,9 @@ import { applycors } from './middlewares/cors.js'
 import { MessageRouter } from './routes/MessageRouter.js'
 import { MessageModelInterface } from './contracts/interfaces/MessageModel.js'
 import { AuthRouter } from './routes/AuthRouter.js'
+import { UserModelInterface } from './contracts/interfaces/UserModel.js'
 
-export const createApp = ({ messageModel, userModel }: { messageModel: MessageModelInterface, userModel: any }) => {
+export const createApp = ({ messageModel, userModel }: { messageModel: MessageModelInterface, userModel: UserModelInterface }) => {
     const app = express() // App principal
     const api = Router() // Manejador de rutas
     

@@ -1,5 +1,5 @@
 import { WithId } from "mongodb";
-import { message, messageInput } from "./Message.js";
+import { message, messageInput } from "shared-types";
 
 export interface MessageModelInterface {
     getAll: () => Promise<WithId<message>[] | null>

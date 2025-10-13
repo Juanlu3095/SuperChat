@@ -19,6 +19,10 @@ export class AuthLibService {
   }
 
   public login (loginUserInput: loginUserInput): Observable<any> {
-    return this.http.post(`${this.endpoint}/auth/login`, loginUserInput)
+    return this.http.post(`${this.endpoint}/auth/login`, loginUserInput, { withCredentials: true })
+  }
+
+  public verifyLogin () {
+    return this.http.get(`${this.endpoint}/auth/login`, { withCredentials: true })
   }
 }

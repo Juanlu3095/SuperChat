@@ -6,9 +6,11 @@ import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
 
 export class AuthController {
     private userModel: UserModelInterface
+    private sessionModel: any
     
-    public constructor (userModel: UserModelInterface) {
+    public constructor (userModel: UserModelInterface, sessionModel: any) {
         this.userModel = userModel
+        this.sessionModel = sessionModel
     }
 
     register = async (req: Request, res: Response) => {
@@ -39,6 +41,7 @@ export class AuthController {
     }
 
     login = async (req: Request, res: Response) => {
+        // Comprobar que no hay cookie de inicio de sesion para que no genere otra sesión y se guarde en MONGO
         const input = validateUserLogin(req.body)
         if (!input.success) return res.status(422).json({ message: 'Datos no válidos.', data: input.errors })
 
@@ -48,13 +51,38 @@ export class AuthController {
         const validacion = validatePassword(input.data.password, user.password)
 
         if (validacion) {
-            return res.json({ message: 'Usuario y contraseña correctos.' })
+            try {
+                await req.session.save()
+                return res.cookie('session_id', req.sessionID, {
+                    secure: true,
+                    httpOnly: true,
+                    sameSite: 'none',
+                    maxAge: 86400000
+                }).json({ message: 'Usuario y contraseña correctos.' })
+            } catch (error) {
+                console.error(error)
+            }
         } else {
             return res.status(401).json({ message: 'Usuario y/o contraseña no válidos.' })
         }
     }
 
-    logout = async () => {
+    getLogin = async (req: Request, res: Response) => {
+        const session_id = req.session.cookie // Esto no es, cada vez que se ejecuta esto se genera una nueva id
+        console.log(session_id)
+        if (!session_id) return res.status(401).json({ message: 'El usuario no está autenticado.' })
+
+        // Comprobar la id de la sesión en base de datos
+        const sessionInfo = this.sessionModel.getById()
+
+        if (sessionInfo) {
+            return res.json({ message: 'Usuario correcto.' })
+        } else {
+            return res.status(401).json({ message: 'El usuario no está autenticado.' })
+        }
+    }
+
+    logout = async (req: Request, res: Response) => {
 
     }
 }

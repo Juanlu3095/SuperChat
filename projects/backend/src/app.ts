@@ -7,7 +7,7 @@ import { MessageModelInterface } from './contracts/interfaces/MessageModel.js'
 import { AuthRouter } from './routes/AuthRouter.js'
 import { UserModelInterface } from './contracts/interfaces/UserModel.js'
 
-export const createApp = ({ messageModel, userModel }: { messageModel: MessageModelInterface, userModel: UserModelInterface }) => {
+export const createApp = ({ messageModel, userModel, sessionModel }: { messageModel: MessageModelInterface, userModel: UserModelInterface, sessionModel: any }) => {
     const app = express() // App principal
     const api = Router() // Manejador de rutas
     
@@ -17,13 +17,20 @@ export const createApp = ({ messageModel, userModel }: { messageModel: MessageMo
 
     app.use(json())
 
-    const { DB_PASS, DB_USER, SESSION_SECRET_KEY } = process.env
+    const { DB_PASS, DB_USER, DB_NAME, SESSION_SECRET_KEY } = process.env
 
-    app.use(session({
+    app.use(session({ // middleware para sesiones
         secret: SESSION_SECRET_KEY,
         resave: false,
         saveUninitialized: false,
+        cookie: { // Esto es lo que se guardará en base de datos. Debería crearse un .ts con las opciones de las cookies para ponerlo aquí y en AuthController
+            secure: true,
+            httpOnly: true,
+            sameSite: 'none',
+            maxAge: 86400000
+        },
         store: new MongoStore({
+            dbName: DB_NAME,
             collectionName: 'sessions',
             ttl: 60,
             mongoUrl: `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.j9ccw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
@@ -31,7 +38,7 @@ export const createApp = ({ messageModel, userModel }: { messageModel: MessageMo
     }))
     
     api.use('/message', MessageRouter(messageModel))
-    api.use('/auth', AuthRouter(userModel))
+    api.use('/auth', AuthRouter(userModel, sessionModel))
     
     app.use('/api', api)
 

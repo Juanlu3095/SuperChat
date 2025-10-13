@@ -13,4 +13,8 @@ export const serverRoutes: ServerRoute[] = [
     path: 'registro',
     renderMode: RenderMode.Client
   },
+  {
+    path: 'dashboard',
+    renderMode: RenderMode.Client
+  },
 ];

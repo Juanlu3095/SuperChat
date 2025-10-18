@@ -1,4 +1,4 @@
-import { OptionalId } from "mongodb"
+import { ObjectId, OptionalId } from "mongodb"
 import { Connection } from "../database/connection.js"
 import { createUserInput, user } from "shared-types"
 import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
@@ -18,6 +18,19 @@ async function userCollection() {
 }
 
 export class UserModel implements UserModelInterface {
+
+    getById = async (id: string) => {
+        try {
+            const collection = await userCollection()
+            const query = { _id: new ObjectId(id) }
+            const user = await collection.findOne(query, {projection: { 'password': 0 }}) // Con projection marcamos con 0 aquellos campos que no queremos enviar
+            return user
+        
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
 
     getByEmail = async (email: string) => {
         try {

@@ -15,7 +15,7 @@ export class MessageLibService {
   }
 
   public getMessages () {
-    return this.http.get(`${this.endpoint}/message`)
+    return this.http.get(`${this.endpoint}/message`, { withCredentials: true })
   }
 
   public getMessage () {}

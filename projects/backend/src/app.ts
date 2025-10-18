@@ -24,15 +24,15 @@ export const createApp = ({ messageModel, userModel, sessionModel }: { messageMo
         resave: false,
         saveUninitialized: false,
         cookie: { // Esto es lo que se guardará en base de datos. Debería crearse un .ts con las opciones de las cookies para ponerlo aquí y en AuthController
-            secure: true,
+            secure: false, // Esto debe ser false en desarrollo
             httpOnly: true,
-            sameSite: 'none',
-            maxAge: 86400000
+            sameSite: 'lax', // lax si es localhost, none para https
+            maxAge: 86400000, // tiempo de vida de la cookie, esto tiene prioridad sobre ttl en Mongo Store
         },
         store: new MongoStore({
             dbName: DB_NAME,
             collectionName: 'sessions',
-            ttl: 60,
+            ttl: 60, // La sesión en MONGODB se elimina en 60 segundos
             mongoUrl: `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.j9ccw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
         })
     }))

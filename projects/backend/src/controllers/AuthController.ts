@@ -3,17 +3,6 @@ import { hashPassword, validatePassword } from "../utils/encryption.js"
 import { validateUserLogin, validateUserRegister } from "../schemas/UserSchema.js"
 import { DatabaseValidation } from "../database/utils/databaseValidations.js"
 import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
-import { Session } from "express-session"
-
-// https://stackoverflow.com/questions/65254104/express-session-how-to-add-user-detail-info-to-express-session-typesscript
-// https://dev.to/akoskm/how-to-use-express-session-with-your-custom-sessiondata-object-and-typescript-1411
-type CustomSession = Session & {
-    user: string
-}
-
-type SessionRequest = Omit<Request, 'session'> & {
-    session: CustomSession
-}
 
 export class AuthController {
     private userModel: UserModelInterface
@@ -51,7 +40,7 @@ export class AuthController {
         }
     }
 
-    login = async (req: SessionRequest, res: Response) => {
+    login = async (req: Request, res: Response) => {
         // Comprobar que no hay cookie de inicio de sesion para que no genere otra sesión y se guarde en MONGO
         const input = validateUserLogin(req.body)
         if (!input.success) return res.status(422).json({ message: 'Datos no válidos.', data: input.errors })
@@ -63,7 +52,8 @@ export class AuthController {
 
         if (validacion) {
             try {
-                req.session.user = user._id.toString()
+                // Necesitamos modificar cualquier cosa de req.session para que se guarde en MongoDB y se genere la cookie
+                req.session.user = user._id.toString() // Le añadimos la id del usuario porque al ser única, es más fácil saber cuándo cambia, además de guardarse en MongoDB
                 return res.json({ message: 'Usuario y contraseña correctos.' })
             } catch (error) {
                 console.error(error)
@@ -80,11 +70,10 @@ export class AuthController {
         // Comprobar la id de la sesión en base de datos
         const sessionInfo = await this.sessionModel.getById(session_id)
 
-        // Se obtienen los datos del usuario
-        const userId = JSON.parse(sessionInfo.session).user
-        const user = await this.userModel.getById(userId)
-
         if (sessionInfo) {
+            // Se obtienen los datos del usuario. Esto debe ir aquí, ya que sino saldrá session null
+            const userId = JSON.parse(sessionInfo.session).user
+            const user = await this.userModel.getById(userId)
             return res.json({ message: 'Usuario correcto.', data: user })
         } else {
             return res.status(401).json({ message: 'El usuario no está autenticado.' })
@@ -92,6 +81,8 @@ export class AuthController {
     }
 
     logout = async (req: Request, res: Response) => {
-
+        // borrar cookie
+        // eliminar user de req.session
+        // eliminar sesión de MongoDB
     }
 }

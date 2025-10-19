@@ -1,6 +1,5 @@
 import express, { json, Router } from 'express'
-import session from 'express-session'
-import MongoStore from 'connect-mongo'
+import { applySession } from './middlewares/session.js'
 import { applycors } from './middlewares/cors.js'
 import { MessageRouter } from './routes/MessageRouter.js'
 import { MessageModelInterface } from './contracts/interfaces/MessageModel.js'
@@ -17,26 +16,8 @@ export const createApp = ({ messageModel, userModel, sessionModel }: { messageMo
 
     app.use(json())
 
-    const { DB_PASS, DB_USER, DB_NAME, SESSION_SECRET_KEY } = process.env
-
-    app.use(session({ // middleware para sesiones
-        secret: SESSION_SECRET_KEY,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { // Esto es lo que se guardará en base de datos. Debería crearse un .ts con las opciones de las cookies para ponerlo aquí y en AuthController
-            secure: false, // Esto debe ser false en desarrollo
-            httpOnly: true,
-            sameSite: 'lax', // lax si es localhost, none para https
-            maxAge: 86400000, // tiempo de vida de la cookie, esto tiene prioridad sobre ttl en Mongo Store
-        },
-        store: new MongoStore({
-            dbName: DB_NAME,
-            collectionName: 'sessions',
-            ttl: 60, // La sesión en MONGODB se elimina en 60 segundos
-            mongoUrl: `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.j9ccw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
-        })
-    }))
-    
+    app.use(applySession()) // Middleware de json() antes de Session para poder obtener los datos de las request y poder leerlos
+        
     api.use('/message', MessageRouter(messageModel))
     api.use('/auth', AuthRouter(userModel, sessionModel))
     

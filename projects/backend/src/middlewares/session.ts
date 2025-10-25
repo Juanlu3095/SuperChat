@@ -5,6 +5,7 @@ const { DB_PASS, DB_USER, DB_NAME, SESSION_SECRET_KEY } = process.env
 
 export const applySession = () => 
     session({ // middleware para sesiones
+        name: 'sc-session',
         secret: SESSION_SECRET_KEY,
         resave: false,
         saveUninitialized: false, // Si la request no es modificada, no se guarda. Por eso en AuthController.login hay que añadir user a req.session

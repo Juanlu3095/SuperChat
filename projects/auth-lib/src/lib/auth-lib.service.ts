@@ -25,4 +25,8 @@ export class AuthLibService {
   public verifyLogin () {
     return this.http.get(`${this.endpoint}/auth/login`, { withCredentials: true })
   }
+
+  public logout () {
+    return this.http.post(`${this.endpoint}/auth/logout`, {} , { withCredentials: true })
+  }
 }

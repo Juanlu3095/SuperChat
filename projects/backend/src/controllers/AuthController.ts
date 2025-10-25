@@ -3,12 +3,13 @@ import { hashPassword, validatePassword } from "../utils/encryption.js"
 import { validateUserLogin, validateUserRegister } from "../schemas/UserSchema.js"
 import { DatabaseValidation } from "../database/utils/databaseValidations.js"
 import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
+import { SessionModelInterface } from "src/contracts/interfaces/SessionModel.js"
 
 export class AuthController {
     private userModel: UserModelInterface
-    private sessionModel: any
+    private sessionModel: SessionModelInterface
     
-    public constructor (userModel: UserModelInterface, sessionModel: any) {
+    public constructor (userModel: UserModelInterface, sessionModel: SessionModelInterface) {
         this.userModel = userModel
         this.sessionModel = sessionModel
     }
@@ -18,8 +19,9 @@ export class AuthController {
 
         if (!input.success) return res.status(422).json({ message: 'Datos no válidos.', error: input.errors })
 
-        const emailDbValidation = await new DatabaseValidation().repeatedValues('users', 'email', input.data.email) // Comprobamos si el email ya existe en la BD
-        const nombreDbValidation = await new DatabaseValidation().repeatedValues('users', 'nombre', input.data.nombre) // Comprobamos si el nombre de usuario ya existe en la BD
+        const DbValidation = new DatabaseValidation()
+        const emailDbValidation = await DbValidation.repeatedValues('users', 'email', input.data.email) // Comprobamos si el email ya existe en la BD
+        const nombreDbValidation = await DbValidation.repeatedValues('users', 'nombre', input.data.nombre) // Comprobamos si el nombre de usuario ya existe en la BD
 
         if (emailDbValidation !== 0 || nombreDbValidation !== 0) return res.status(422).json({ message: 'El usuario ya existe.' })
 
@@ -46,7 +48,7 @@ export class AuthController {
         if (!input.success) return res.status(422).json({ message: 'Datos no válidos.', data: input.errors })
 
         const user = await this.userModel.getByEmail(input.data.email) // Recuperamos los datos del usuario de la BD
-        if (!user) return res.status(401).json({ message: 'Usuario y contraseña correctos.' }) // Se comprueba si el user no es null (NO EXISTE EL USUARIO EN LA BD)
+        if (!user) return res.status(401).json({ message: 'Usuario y contraseña incorrectos.' }) // Se comprueba si el user no es null (NO EXISTE EL USUARIO EN LA BD)
 
         const validacion = validatePassword(input.data.password, user.password)
 
@@ -81,8 +83,16 @@ export class AuthController {
     }
 
     logout = async (req: Request, res: Response) => {
-        // borrar cookie
-        // eliminar user de req.session
-        // eliminar sesión de MongoDB
+        if (req.session.id) {
+            req.session.destroy((error) => { // Elimina la sesión de express y de la base de datos
+                if (error) {
+                    res.status(500).json({ message: 'Error al cerrar la sesión.' })
+                    console.error('Error al cerrar la sesión: ', error) // Deberían guardarse estos errores en algún sitio
+                } else {
+                    res.clearCookie('sc-session') // Borra cookie del navegador, seguramente habrá que añadir la configuración de la cookie para que la encuentre
+                    .json({ message: 'Cierre de sesión satisfactorio.' })
+                }
+            })
+        }
     }
 }

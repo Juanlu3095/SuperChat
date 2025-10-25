@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthLibService } from 'auth-lib';
 
 @Component({
@@ -21,7 +22,7 @@ export class LoginComponent {
     })
   })
 
-  constructor(private authService: AuthLibService) {}
+  constructor(private router: Router, private authService: AuthLibService) {}
 
   login() {
     if (this.loginForm.valid) {
@@ -31,7 +32,7 @@ export class LoginComponent {
       }
       this.authService.login(loginInput).subscribe({
         next: (respuesta) => {
-          console.log(respuesta)
+          this.router.navigate(['/dashboard'])
         },
         error: (error) => {
           console.error(error)

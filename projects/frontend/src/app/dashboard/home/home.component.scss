@@ -1,0 +1,49 @@
+body{
+    background-color: black !important;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:  0.5rem 2rem;
+    align-items: center;
+}
+
+// CHATS + MESSAGES
+main {
+    display: flex;
+    flex-direction: row;
+    padding:  0.5rem 2rem;
+}
+
+// CHAT LIST
+aside#chatlist {
+    width: 30%;
+}
+
+#messages {
+    list-style: none;
+}
+
+// MESSAGE LIST
+section#message-box {
+    width: 70%;
+}
+
+#form {
+    position: fixed;
+    bottom: 10px;
+    display: flex;
+    gap: 1rem;
+}
+
+#input {
+    height: 24px;
+    width: 50rem;
+}
+
+#submit {
+    height: 30px;
+    width: 5rem;
+}

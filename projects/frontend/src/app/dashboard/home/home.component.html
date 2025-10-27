@@ -1,3 +1,30 @@
-<h1>Dashboard</h1>
+<header>
+    <h1>Dashboard</h1>
+    <button (click)="logout()">Cerrar sesión</button>
+</header>
 
-<button (click)="logout()">Cerrar sesión</button>
+<main>
+    <!-- Listado de chats -->
+    <aside id="chatlist">
+        <!-- Formulario de búsqueda de chats -->
+        <form>
+            <input type="text" placeholder="Busca tu chat">
+        </form>
+    </aside>
+    
+    <!-- Mensajes e input para escribirlos -->
+    <section id="message-box">
+        <ul id="messages">
+            @for (message of messages; track message.id) {
+                <li>{{ message.content }}</li>
+            }
+            @empty {
+                <p>Aún no hay mensajes.</p>
+            }
+        </ul>
+        <form id="form" [formGroup]="chatForm">
+          <input type="text" name="message" id="input" formControlName="message" placeholder="Escribe un mensaje..." autocomplete="off" />
+          <button id="submit" (click)="sendMessage()">Enviar</button>
+        </form>
+    </section>
+</main>

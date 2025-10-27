@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authUserGuard } from './guards/auth-user.guard';
+import { authUserGuard, inverseAuthUserGuard } from './guards/auth-user.guard';
 
 export const routes: Routes = [
     {
@@ -9,6 +9,7 @@ export const routes: Routes = [
     {
         path: 'iniciosesion',
         loadComponent:() => import('./client/login/login.component').then((m) => m.LoginComponent),
+        canActivate: [inverseAuthUserGuard]
     },
     {
         path: 'registro',

@@ -27,6 +27,10 @@
         "./projects/message-lib/src/public-api.ts" // desarrollo
         // "./dist/message-lib" // producción
       ],
+      "socket-lib": [
+        "./projects/socket-lib/src/public-api.ts", // desarrollo
+        // "./dist/socket-lib" // producción
+      ],
     },
     "importHelpers": true,
     "target": "ES2022",

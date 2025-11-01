@@ -1,20 +1,12 @@
 import cors from 'cors'
+import { ACCEPTED_ORIGINS } from '../config/cors.js'
 
 export const applycors = () =>
   cors({
     origin: (origin, callback) => {
-      const ORIGIN_DEVELOP = [
-        'http://localhost:4000',
-        'http://localhost:4200'
-      ]
+      const accepted_origins = ACCEPTED_ORIGINS()
 
-      const ORIGIN_PROD = [
-        'https://juanlu3095.github.io'
-      ]
-
-      const ACCEPTED_ORIGINS = process.env.ENVIRONMENT === 'production' ? ORIGIN_PROD : ORIGIN_DEVELOP
-
-      if (origin && ACCEPTED_ORIGINS.includes(origin)) {
+      if (origin && accepted_origins.includes(origin)) {
         return callback(null, true)
       }
 

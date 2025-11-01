@@ -7,7 +7,7 @@ import { AuthRouter } from './routes/AuthRouter.js'
 import { UserModelInterface } from './contracts/interfaces/UserModel.js'
 
 export const createApp = ({ messageModel, userModel, sessionModel }: { messageModel: MessageModelInterface, userModel: UserModelInterface, sessionModel: any }) => {
-    const app = express() // App principal
+    const app = express() // App principal, crea y devuelve instancia de Express.Application
     const api = Router() // Manejador de rutas
     
     app.disable('x-powered-by')

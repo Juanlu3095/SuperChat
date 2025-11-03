@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Socket, io } from 'socket.io-client';
-
-interface message {
-    id: string,
-    user: string,
-    content: string
-  }
+import { chatMessage } from '../../../shared-types/src/lib/chatmessage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +13,7 @@ export class SocketLibService {
     this.socket = io('http://localhost:3000')
   }
 
-  sendMessage(message: message): void {
+  sendMessage(message: chatMessage): void {
     this.socket.emit('message', message);
   }
 

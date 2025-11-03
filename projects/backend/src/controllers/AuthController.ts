@@ -3,7 +3,7 @@ import { hashPassword, validatePassword } from "../utils/encryption.js"
 import { validateUserLogin, validateUserRegister } from "../schemas/UserSchema.js"
 import { DatabaseValidation } from "../database/utils/databaseValidations.js"
 import { UserModelInterface } from "../contracts/interfaces/UserModel.js"
-import { SessionModelInterface } from "src/contracts/interfaces/SessionModel.js"
+import { SessionModelInterface } from "../contracts/interfaces/SessionModel.js"
 
 export class AuthController {
     private userModel: UserModelInterface
@@ -56,6 +56,13 @@ export class AuthController {
             try {
                 // Necesitamos modificar cualquier cosa de req.session para que se guarde en MongoDB y se genere la cookie
                 req.session.user = user._id.toString() // Le añadimos la id del usuario porque al ser única, es más fácil saber cuándo cambia, además de guardarse en MongoDB
+                req.sessionStore.set(req.session.id, req.session, (error) => {
+                    if (error) {
+                        console.error('Error al crear la sesión.')
+                        return res.status(500).json({ message: 'Error al crear la sesión.' })
+                    }
+                    this.sessionModel.patch(req.session.id, user._id.toString())
+                })
                 return res.json({ message: 'Usuario y contraseña correctos.' })
             } catch (error) {
                 console.error(error)
@@ -70,13 +77,14 @@ export class AuthController {
         if (!session_id) return res.status(401).json({ message: 'El usuario no está autenticado.' })
 
         // Comprobar la id de la sesión en base de datos
-        const sessionInfo = await this.sessionModel.getById(session_id)
+        const sessionInfo = await this.sessionModel.getUser(session_id)
 
-        if (sessionInfo) {
+        // return res.json({ data: sessionInfo })
+        if (sessionInfo.length !== 0) {
             // Se obtienen los datos del usuario. Esto debe ir aquí, ya que sino saldrá session null
-            const userId = JSON.parse(sessionInfo.session).user
-            const user = await this.userModel.getById(userId)
-            return res.json({ message: 'Usuario correcto.', data: user })
+            /* const userId = JSON.parse(sessionInfo.session).user
+            const user = await this.userModel.getById(userId) */
+            return res.json({ message: 'Usuario correcto.', data: sessionInfo })
         } else {
             return res.status(401).json({ message: 'El usuario no está autenticado.' })
         }

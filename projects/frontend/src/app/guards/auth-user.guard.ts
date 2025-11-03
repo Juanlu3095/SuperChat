@@ -10,6 +10,7 @@ export const authUserGuard: CanActivateFn = (route, state) => {
 
   return authService.verifyLogin().pipe(
     map((respuesta) => {
+      console.log(respuesta)
       return true
     }),
     catchError((error) => {

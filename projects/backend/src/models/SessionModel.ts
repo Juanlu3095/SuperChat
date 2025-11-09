@@ -31,11 +31,11 @@ export class SessionModel implements SessionModelInterface {
         }
     }
 
-    // Obtener usuario correspondiente a la sesión
+    // Obtener usuario correspondiente a la sesión de la request
     getUser = async (sessionId: string) => {
         try {
             const collection = await sessionCollection()
-            const user = await collection.aggregate([
+            const session = await collection.aggregate([
                 { $match: { _id: sessionId } },
                 {
                     $lookup: {
@@ -44,9 +44,14 @@ export class SessionModel implements SessionModelInterface {
                         foreignField: "_id", // Campo a relacionar de users
                         as: "user" // El nombre de la propiedad que va a contener los datos relacionados
                     }
-                }
+                },
+                // { $project: { "user.password": 0, "user.updated_at": 0 }}, // Quitamos el password de la colección relacionada o embebida
+                { $unset: ["expires", "session", "userId", "_id", "user.password", "user.updated_at" ] }, // En unset podemos quitar sin indicar número como en $project
+                { $unwind: "$user" } // Transforma cada elemento de un array en un objeto JSON
             ]).toArray()
-            return user
+
+            if (session.length === 0) return null
+            return session[0].user
 
         } catch (error) {
             console.error(error)

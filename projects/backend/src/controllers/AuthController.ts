@@ -79,11 +79,7 @@ export class AuthController {
         // Comprobar la id de la sesión en base de datos
         const sessionInfo = await this.sessionModel.getUser(session_id)
 
-        // return res.json({ data: sessionInfo })
-        if (sessionInfo.length !== 0) {
-            // Se obtienen los datos del usuario. Esto debe ir aquí, ya que sino saldrá session null
-            /* const userId = JSON.parse(sessionInfo.session).user
-            const user = await this.userModel.getById(userId) */
+        if (sessionInfo) {
             return res.json({ message: 'Usuario correcto.', data: sessionInfo })
         } else {
             return res.status(401).json({ message: 'El usuario no está autenticado.' })

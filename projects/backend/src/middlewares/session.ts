@@ -3,7 +3,7 @@ import MongoStore from 'connect-mongo'
 
 const { DB_PASS, DB_USER, DB_NAME, SESSION_SECRET_KEY } = process.env
 
-export const applySession = () => 
+export const applySession = 
     session({ // middleware para sesiones
         name: 'sc-session',
         secret: SESSION_SECRET_KEY,

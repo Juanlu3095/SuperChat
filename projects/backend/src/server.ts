@@ -1,4 +1,5 @@
 import { createApp } from "./app.js"
+import { ChatmessageModel } from "./models/ChatMessageModel.js"
 import { MessageModel } from "./models/MessageModel.js"
 import { SessionModel } from "./models/SessionModel.js"
 import { UserModel } from "./models/UserModel.js"
@@ -10,7 +11,7 @@ const app = createApp({
     sessionModel: new SessionModel
 })
 
-const server = createServerWithSockets(app)
+const server = createServerWithSockets(app, new ChatmessageModel)
 
 const PORT = process.env.PORT ?? 3000
 

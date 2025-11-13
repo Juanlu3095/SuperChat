@@ -74,6 +74,7 @@ export class AuthController {
 
     getLogin = async (req: Request, res: Response) => {
         const session_id = req.session.id // Obtenemos la id de la sesión
+        console.log('Id de sesión: ' + session_id)
         if (!session_id) return res.status(401).json({ message: 'El usuario no está autenticado.' })
 
         // Comprobar la id de la sesión en base de datos

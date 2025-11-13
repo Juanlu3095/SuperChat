@@ -16,7 +16,7 @@ export const createApp = ({ messageModel, userModel, sessionModel }: { messageMo
 
     app.use(json())
 
-    app.use(applySession()) // Middleware de json() antes de Session para poder obtener los datos de las request y poder leerlos
+    app.use(applySession) // Middleware de json() antes de Session para poder obtener los datos de las request y poder leerlos
         
     api.use('/message', MessageRouter(messageModel))
     api.use('/auth', AuthRouter(userModel, sessionModel))

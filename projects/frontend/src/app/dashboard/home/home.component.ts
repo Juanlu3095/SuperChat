@@ -48,8 +48,8 @@ export class HomeComponent implements OnInit{
   sendMessage () {
     if (this.chatForm.valid) {
       const message = {
-        id: Math.floor(Math.random() * 65536).toString(),
-        user: 'Prueba',
+        id: Math.floor(Math.random() * 65536).toString(), // Esto se podría eliminar ya que la id la generará MongoDB. Cambiar por id de la sala de chat ?
+        user: 'Prueba', // Incluir la id del usuario y comprobar si dicha id existe en la base de datos antes de guardar en la colección chatMessages
         content: this.chatForm.getRawValue().message
       }
       console.log("Éste es el mensaje a enviar: " + message.id)

@@ -10,7 +10,7 @@ export class SocketLibService {
   private socket: Socket
 
   constructor() {
-    this.socket = io('http://localhost:3000')
+    this.socket = io('http://localhost:3000', { withCredentials: true }) // Muy importante las credenciales para que socket coja la sesión de Express
   }
 
   sendMessage(message: chatMessage): void {

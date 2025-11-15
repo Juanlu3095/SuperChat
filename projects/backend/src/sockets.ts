@@ -17,9 +17,10 @@ export const createServerWithSockets = (app: Express.Application, chatMessageMod
 
     const chatMessageController = new ChatmessageController(chatMessageModel)
 
-    io.on('connection', async (socket) => {
+    io.on('connection', (socket) => {
         console.log("Usuario conectado: " + socket.id)
-        const dataSocket = await socket.request.session.id // Tipar esto!!
+        console.log("Auth: ", socket.handshake)
+        const dataSocket = socket.request.sessionID
         console.log('Socket: ', dataSocket)
     
         socket.on('message', (msg) => {

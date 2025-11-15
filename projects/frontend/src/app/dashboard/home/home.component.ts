@@ -13,6 +13,7 @@ import { chatMessage } from '../../../../../shared-types/src/lib/chatmessage';
 })
 export class HomeComponent implements OnInit{
   messages: chatMessage[] = []
+  session = sessionStorage.getItem('user_sc')
 
   // VER https://medium.com/@sehban.alam/integrating-socket-io-with-angular-real-time-awesomeness-made-easy-039dabf97c7a PARA SOCKETS CON ANGULAR & EXPRESS
   // VER https://www.youtube.com/watch?v=vUXL0N1NAUI USA SOCKET.IO-CLIENT
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
     this.socketService.onMessage((message: any) => {
-      console.log("Nuevo mensaje: " + message.content)
+      console.log("Nuevo mensaje: " + JSON.stringify(message))
       this.messages.push(message)
     })
   }
@@ -46,13 +47,12 @@ export class HomeComponent implements OnInit{
   }
 
   sendMessage () {
-    if (this.chatForm.valid) {
+    if (this.chatForm.valid && this.session) {
       const message = {
-        id: Math.floor(Math.random() * 65536).toString(), // Esto se podría eliminar ya que la id la generará MongoDB. Cambiar por id de la sala de chat ?
-        user: 'Prueba', // Incluir la id del usuario y comprobar si dicha id existe en la base de datos antes de guardar en la colección chatMessages
+        user: this.session, // Incluir la id del usuario y comprobar si dicha id existe en la base de datos antes de guardar en la colección chatMessages
         content: this.chatForm.getRawValue().message
       }
-      console.log("Éste es el mensaje a enviar: " + message.id)
+      console.log("Éste es el mensaje a enviar: " + message)
       this.socketService.sendMessage(message)
       this.chatForm.reset()
     }

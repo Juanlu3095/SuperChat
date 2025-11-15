@@ -16,11 +16,30 @@ async function chatMessageCollection() {
 }
 
 export class ChatmessageModel {
+    filter = async ({ filter, limit } : { filter: string, limit?: number }) => {
+        try {
+            const collection = await chatMessageCollection()
+            let result = await collection.find().sort({ [filter]: -1 })
+
+            if (limit) {
+                result = result.limit(limit)
+            }
+            
+            const documents = await result.toArray()
+            return documents.length === 0 ? null : documents
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
     create = async (chatmessageInput: any) => {
         try {
             const collection = await chatMessageCollection()
+            const countDocuments = await this.filter({ filter: 'order', limit: 1 }) || null // Obtenemos el documento de la colección con mayor 'order'
             const chatMessage = {
                 ...chatmessageInput,
+                order: countDocuments ? countDocuments[0].order + 1 : 1, // todo el rato diciendo que countDocuments es undefined
                 created_at: new Date().toLocaleDateString(),
                 updated_at: new Date().toLocaleDateString()
             }

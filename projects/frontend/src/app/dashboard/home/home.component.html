@@ -15,8 +15,8 @@
     <!-- Mensajes e input para escribirlos -->
     <section id="message-box">
         <ul id="messages">
-            @for (message of messages; track message.id) {
-                <li>{{ message.content }}</li>
+            @for (message of messages; track message) {
+                <li class="{{ message.user === session ? 'mymessage' : 'myfriendmessage' }}">{{ message.content }}</li>
             }
             @empty {
                 <p>Aún no hay mensajes.</p>

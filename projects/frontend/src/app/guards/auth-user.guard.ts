@@ -7,10 +7,14 @@ import { catchError, map, of } from 'rxjs';
 export const authUserGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthLibService) // Estas const deben ir dentro de la función o de una clase: https://angular.dev/errors/NG0203
   const router = inject(Router)
+  const session = sessionStorage.getItem('user_sc')
 
   return authService.verifyLogin().pipe(
-    map((respuesta) => {
+    map((respuesta: any) => {
       console.log(respuesta)
+      if (respuesta.data && !session) {
+        sessionStorage.setItem('user_sc', respuesta.data._id)
+      }
       return true
     }),
     catchError((error) => {

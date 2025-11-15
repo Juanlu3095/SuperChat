@@ -9,7 +9,7 @@ export class ChatmessageController {
     create = async (msg: any) => {
 
         // Primero obtener la id de la sesión y sobre ello obtener la id del usuario
-        // Comprobar que la id del usuario exista
+        // Comprobar que la id del usuario exista que viene desde el sessionStorage de Angular
 
         const result = await this.chatMessageModel.create(msg)
 

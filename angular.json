@@ -240,6 +240,39 @@
           }
         }
       }
+    },
+    "chatmessage-lib": {
+      "projectType": "library",
+      "root": "projects/chatmessage-lib",
+      "sourceRoot": "projects/chatmessage-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/chatmessage-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/chatmessage-lib/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/chatmessage-lib/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/chatmessage-lib/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

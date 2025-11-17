@@ -16,6 +16,18 @@ async function chatMessageCollection() {
 }
 
 export class ChatmessageModel {
+
+    getAll = async () => {
+        try {
+            const collection = await chatMessageCollection()
+            let result = await collection.find().toArray()
+            return result
+        } catch (error) {
+            console.error(error)
+            return null
+        }
+    }
+
     filter = async ({ filter, limit } : { filter: string, limit?: number }) => {
         try {
             const collection = await chatMessageCollection()
@@ -37,11 +49,14 @@ export class ChatmessageModel {
         try {
             const collection = await chatMessageCollection()
             const countDocuments = await this.filter({ filter: 'order', limit: 1 }) || null // Obtenemos el documento de la colección con mayor 'order'
+            const date = new Date()
             const chatMessage = {
-                ...chatmessageInput,
-                order: countDocuments ? countDocuments[0].order + 1 : 1, // todo el rato diciendo que countDocuments es undefined
-                created_at: new Date().toLocaleDateString(),
-                updated_at: new Date().toLocaleDateString()
+                userId: chatmessageInput.userId,
+                username: chatmessageInput.username,
+                content: chatmessageInput.content,
+                order: countDocuments ? countDocuments[0].order + 1 : 1,
+                created_at: chatmessageInput.created_at,
+                updated_at: chatmessageInput.created_at
             }
             const query = await collection.insertOne(chatMessage)
             return query.acknowledged

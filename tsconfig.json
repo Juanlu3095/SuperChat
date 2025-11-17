@@ -19,6 +19,10 @@
         "./projects/auth-lib/src/public-api.ts"
         // "./dist/auth-lib" // producción
       ],
+      "chatmessage-lib": [
+        "./projects/chatmessage-lib/src/public-api.ts" // desarrollo
+        // "./dist/chatmessage-lib" // producción
+      ],
       "shared-types": [
         "./projects/shared-types/src/public-api.ts" // desarrollo
         // "./dist/shared-types" // producción

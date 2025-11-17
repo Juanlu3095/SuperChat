@@ -8,7 +8,8 @@ import { createServerWithSockets } from "./sockets.js"
 const app = createApp({
     messageModel: new MessageModel,
     userModel: new UserModel,
-    sessionModel: new SessionModel
+    sessionModel: new SessionModel,
+    chatmessageModel: new ChatmessageModel
 })
 
 const server = createServerWithSockets(app, new ChatmessageModel)

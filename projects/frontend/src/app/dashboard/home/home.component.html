@@ -15,8 +15,12 @@
     <!-- Mensajes e input para escribirlos -->
     <section id="message-box">
         <ul id="messages">
-            @for (message of messages; track message) {
-                <li class="{{ message.user === session ? 'mymessage' : 'myfriendmessage' }}">{{ message.content }}</li>
+            @for (message of messages; track message._id) {
+                <li class="chat-item">
+                    <p class="{{ message.userId === userId ? 'mymessage-data' : 'myfriendmessage-data' }}"><b>{{ message.username || "Anonymous" }}</b> {{ message.created_at }}</p>
+                    <p class="message {{ message.userId === userId ? 'mymessage' : 'myfriendmessage' }}">{{ message.content }}</p>
+                </li>
+                <br>
             }
             @empty {
                 <p>Aún no hay mensajes.</p>

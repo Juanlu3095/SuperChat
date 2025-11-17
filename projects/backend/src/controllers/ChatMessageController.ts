@@ -1,9 +1,15 @@
+import { Request, Response } from "express"
 
 export class ChatmessageController {
     private chatMessageModel: any
 
     public constructor (chatMessageController: any) {
         this.chatMessageModel = chatMessageController
+    }
+
+    getAll = async (_req: Request, res: Response) => {
+        const messages = await this.chatMessageModel.getAll()
+        return res.json({ message: 'Mensajes del chat encontrados.', data: messages })
     }
 
     create = async (msg: any) => {

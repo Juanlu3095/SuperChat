@@ -13,7 +13,7 @@ export const authUserGuard: CanActivateFn = (route, state) => {
     map((respuesta: any) => {
       console.log(respuesta)
       if (respuesta.data && !session) {
-        sessionStorage.setItem('user_sc', respuesta.data._id)
+        sessionStorage.setItem('user_sc', JSON.stringify({"userId": respuesta.data._id, username: respuesta.data.nombre}))
       }
       return true
     }),

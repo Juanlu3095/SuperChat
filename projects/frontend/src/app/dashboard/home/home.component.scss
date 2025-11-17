@@ -24,20 +24,59 @@ aside#chatlist {
 
 #messages {
     list-style: none;
+    overflow-y: auto;
+    height: 70vh;
+    margin: 2rem 0;
 }
 
 // MESSAGE LIST
 section#message-box {
     width: 70%;
+    height: 100vh;
+    display: flex;
+    flex-grow: 1;
+}
+
+.chat-item {
+    padding: 2.5rem 0;
+}
+
+.message {
+    color: white;
+    padding: 0.5rem 1rem;
+    clear: both;
+    margin: 0.5rem 0;
+}
+
+.mymessage-data {
+    float: right;
+    text-align: end;
+    margin: 0.5rem 0;
+}
+
+.myfriendmessage-data {
+    float: left;
+    text-align: start;
+    margin: 0.5rem 0;
 }
 
 .mymessage {
     float: right;
+    text-align: end;
+    background-color: red;
+    border-radius: 0 0 0 1rem;
+    margin-left: 2rem;
 }
 
 .myfriendmessage {
     float: left;
+    text-align: start;
+    background-color: blue;
+    border-radius: 0 0 1rem 0;
+    margin-right: 2rem
 }
+
+// Form with button to send messages
 
 #form {
     position: fixed;
@@ -48,10 +87,10 @@ section#message-box {
 
 #input {
     height: 24px;
-    width: 50rem;
+    width: 60vw;
 }
 
 #submit {
     height: 30px;
-    width: 5rem;
+    width: 10vh;
 }

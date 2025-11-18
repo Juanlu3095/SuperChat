@@ -1,4 +1,4 @@
-import { OptionalId } from "mongodb"
+import { ObjectId, OptionalId } from "mongodb"
 import { Connection } from "../database/connection.js"
 
 const { DB_NAME, DB_USER, DB_PASS } = process.env
@@ -20,7 +20,25 @@ export class ChatmessageModel {
     getAll = async () => {
         try {
             const collection = await chatMessageCollection()
-            let result = await collection.find().toArray()
+            let result = await collection.aggregate([
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "username"
+                    },
+                    
+                },
+                { $project: {  // Aquí indicamos qué campos debe mostrar (1) y cuáles no (0 ó no incluir)
+                    username: "$username.nombre", // Hacemos que devuelve directamente el string y no el JSON
+                    content: 1,
+                    created_at: 1,
+                    order: 1,
+                    userId: 1
+                } },
+                { $unwind: "$username" }
+            ]).toArray()
             return result
         } catch (error) {
             console.error(error)
@@ -51,8 +69,7 @@ export class ChatmessageModel {
             const countDocuments = await this.filter({ filter: 'order', limit: 1 }) || null // Obtenemos el documento de la colección con mayor 'order'
             const date = new Date()
             const chatMessage = {
-                userId: chatmessageInput.userId,
-                username: chatmessageInput.username,
+                userId: new ObjectId(`${chatmessageInput.userId}`), // chatmessageInput.userId,
                 content: chatmessageInput.content,
                 order: countDocuments ? countDocuments[0].order + 1 : 1,
                 created_at: chatmessageInput.created_at,

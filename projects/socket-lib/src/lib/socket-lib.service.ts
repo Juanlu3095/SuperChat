@@ -13,7 +13,7 @@ export class SocketLibService {
     this.socket = io('http://localhost:3000', {
       withCredentials: true,
       auth: {
-        username: sessionStorage.getItem('user') || 'anonymous',
+        username: sessionStorage.getItem('user_sc') || 'anonymous',
         serverOffset: 0
       }
     }) // Muy importante las credenciales para que socket coja la sesión de Express

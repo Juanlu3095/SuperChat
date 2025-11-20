@@ -5,6 +5,8 @@ import { ChatmessageController } from './controllers/ChatMessageController.js'
 import { applySession } from './middlewares/session.js'
 
 // https://d2ymvn.medium.com/building-a-real-time-chat-application-with-express-typescript-socket-io-next-js-and-tailwindcss-774f1ee6c9e2
+// https://medium.com/swlh/build-a-chat-room-with-node-js-and-socket-io-e3e43f49a02d PARA CHAT ROOM
+// https://socket.io/docs/v4/rooms/ CHAT ROOM OFICIAL
 export const createServerWithSockets = (app: Express.Application, chatMessageModel: any) => {
     const server = createServer(app)
 

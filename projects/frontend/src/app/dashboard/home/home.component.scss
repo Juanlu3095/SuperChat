@@ -3,38 +3,48 @@ body{
 }
 
 header {
+    padding: 0.5rem 2rem;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    padding:  0.5rem 2rem;
     align-items: center;
+    position: sticky;
+    top: 0;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    z-index: 999;
 }
 
 // CHATS + MESSAGES
 main {
     display: flex;
     flex-direction: row;
-    padding:  0.5rem 2rem;
+    padding:  0.5rem 1.5rem; 
+    position: fixed;
+    gap: 1.5rem;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: calc(100vh - 70px);
 }
 
 // CHAT LIST
 aside#chatlist {
     width: 30%;
-}
-
-#messages {
-    list-style: none;
-    overflow-y: auto;
-    height: 70vh;
-    margin: 2rem 0;
+    // position: fixed;
 }
 
 // MESSAGE LIST
 section#message-box {
     width: 70%;
-    height: 100vh;
     display: flex;
-    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+}
+
+#messages {
+    list-style: none;
+    overflow-y: auto;
+    width: 100%;
+    max-height: calc(100vh - 200px);
 }
 
 .chat-item {
@@ -79,18 +89,21 @@ section#message-box {
 // Form with button to send messages
 
 #form {
-    position: fixed;
-    bottom: 10px;
     display: flex;
     gap: 1rem;
+    justify-content: center;
+    width: calc(100vw - 200px);
+    position: absolute;
+    bottom: 70px;
 }
 
 #input {
     height: 24px;
-    width: 60vw;
+    width: 65%;
 }
 
 #submit {
     height: 30px;
-    width: 10vh;
+    width: calc(10vw - 20px);
+    margin-right: 20px;
 }

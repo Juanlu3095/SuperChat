@@ -3,8 +3,8 @@ import { Request, Response } from "express"
 export class ChatmessageController {
     private chatMessageModel: any
 
-    public constructor (chatMessageController: any) {
-        this.chatMessageModel = chatMessageController
+    public constructor (chatMessageModel: any) {
+        this.chatMessageModel = chatMessageModel
     }
 
     getAll = async (_req: Request, res: Response) => {

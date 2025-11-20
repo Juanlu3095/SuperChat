@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit{
         userId: JSON.parse(this.session).userId, // Incluir la id del usuario y comprobar si dicha id existe en la base de datos antes de guardar en la colección chatMessages
         username: JSON.parse(this.session).username,
         content: this.chatForm.getRawValue().message,
+        order: this.messages.length + 1,
         created_at: `${fechaActual.toLocaleDateString()} ${fechaActual.getHours()}:${fechaActual.getMinutes()}`,
       }
       console.log("Éste es el mensaje a enviar: " + message)

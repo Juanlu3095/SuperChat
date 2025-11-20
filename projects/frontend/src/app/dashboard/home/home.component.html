@@ -9,13 +9,16 @@
         <!-- Formulario de búsqueda de chats -->
         <form>
             <input type="text" placeholder="Busca tu chat">
+            <ul>
+                
+            </ul>
         </form>
     </aside>
     
     <!-- Mensajes e input para escribirlos -->
     <section id="message-box">
         <ul id="messages">
-            @for (message of messages; track message._id) {
+            @for (message of messages; track message.order) {
                 <li class="chat-item">
                     <p class="{{ message.userId === userId ? 'mymessage-data' : 'myfriendmessage-data' }}"><b>{{ message.username || "Anonymous" }}</b> {{ message.created_at }}</p>
                     <p class="message {{ message.userId === userId ? 'mymessage' : 'myfriendmessage' }}">{{ message.content }}</p>

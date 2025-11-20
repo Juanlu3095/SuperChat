@@ -46,6 +46,11 @@ export class ChatmessageModel {
         }
     }
 
+    /**
+     * It allows to get all documents ordered by a parameter and optionally to limit the number of results.
+     * @param { string, number } 
+     * @returns 
+     */
     filter = async ({ filter, limit } : { filter: string, limit?: number }) => {
         try {
             const collection = await chatMessageCollection()
@@ -66,12 +71,11 @@ export class ChatmessageModel {
     create = async (chatmessageInput: any) => {
         try {
             const collection = await chatMessageCollection()
-            const countDocuments = await this.filter({ filter: 'order', limit: 1 }) || null // Obtenemos el documento de la colección con mayor 'order'
-            const date = new Date()
+            // const countDocuments = await this.filter({ filter: 'order', limit: 1 }) || null // Obtenemos el documento de la colección con mayor 'order'
             const chatMessage = {
                 userId: new ObjectId(`${chatmessageInput.userId}`), // chatmessageInput.userId,
                 content: chatmessageInput.content,
-                order: countDocuments ? countDocuments[0].order + 1 : 1,
+                order: chatmessageInput.order ?? 1,
                 created_at: chatmessageInput.created_at,
                 updated_at: chatmessageInput.created_at
             }

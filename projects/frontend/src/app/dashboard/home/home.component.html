@@ -9,10 +9,21 @@
         <!-- Formulario de búsqueda de chats -->
         <form>
             <input type="text" placeholder="Busca tu chat">
-            <ul>
-                
-            </ul>
+            
         </form>
+        <ul class="chatrooms">
+            @for (chatroom of chatRooms; track chatroom._id) {
+                <li class="chatroom" (click)="getMessagesByRoom(chatroom._id)">
+                    <div class="chatroom-content">
+                        <img class="chatroom-avatar" src="img/usuario.png" alt="chatroom-avatar" />
+                        <h3>{{ chatroom.name }}</h3>
+                    </div>
+                </li>
+            }
+            @empty {
+                <p>Aún no hay salas de chat.</p>
+            }
+        </ul>
     </aside>
     
     <!-- Mensajes e input para escribirlos -->

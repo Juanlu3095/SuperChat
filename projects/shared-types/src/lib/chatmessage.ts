@@ -2,6 +2,7 @@ export interface chatMessage { // Se podría usar Omit para separar el objeto pa
     _id?: string,
     userId: string,
     username?: string,
+    chatroom: string,
     order: number,
     content: string,
     created_at: string,

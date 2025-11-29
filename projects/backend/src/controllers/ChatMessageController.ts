@@ -7,8 +7,14 @@ export class ChatmessageController {
         this.chatMessageModel = chatMessageModel
     }
 
-    getAll = async (_req: Request, res: Response) => {
-        const messages = await this.chatMessageModel.getAll()
+    getAll = async (req: Request, res: Response) => {
+        const { idRoom } = req.query
+        let messages
+        if (idRoom) {
+            messages = await this.chatMessageModel.getAll(idRoom)
+        } else {
+            messages = await this.chatMessageModel.getAll()
+        }
         return res.json({ message: 'Mensajes del chat encontrados.', data: messages })
     }
 

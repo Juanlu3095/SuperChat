@@ -29,7 +29,30 @@ main {
 // CHAT LIST
 aside#chatlist {
     width: 30%;
-    // position: fixed;
+}
+
+.chatrooms {
+    margin: 0.5rem;
+    padding: 0;
+}
+
+.chatrooms li {
+    list-style: none;
+}
+
+.chatroom-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chatroom-content h3 {
+    font-size: medium;
+}
+
+.chatroom-avatar {
+    width: 32px;
+    height: 32px;
 }
 
 // MESSAGE LIST

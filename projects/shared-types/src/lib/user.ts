@@ -12,3 +12,5 @@ export interface user {
 export type createUserInput = Omit<user, '_id'|'created_at'|'updated_at'>
 
 export type loginUserInput = Pick<user, 'email'|'password'>
+
+export type chatParticipant = Omit<user, 'password'|'updated_at'>

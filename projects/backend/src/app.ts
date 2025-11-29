@@ -6,8 +6,17 @@ import { MessageModelInterface } from './contracts/interfaces/MessageModel.js'
 import { AuthRouter } from './routes/AuthRouter.js'
 import { UserModelInterface } from './contracts/interfaces/UserModel.js'
 import { ChatmessageRouter } from './routes/ChatmessagesRouter.js'
+import { ChatroomRouter } from './routes/ChatroomRouter.js'
 
-export const createApp = ({ messageModel, userModel, sessionModel, chatmessageModel }: { messageModel: MessageModelInterface, userModel: UserModelInterface, sessionModel: any, chatmessageModel: any }) => {
+export const createApp = ({
+        messageModel, userModel, sessionModel, chatmessageModel, chatroomModel
+    } : { 
+        messageModel: MessageModelInterface,
+        userModel: UserModelInterface,
+        sessionModel: any,
+        chatmessageModel: any,
+        chatroomModel: any
+    }) => {
     const app = express() // App principal, crea y devuelve instancia de Express.Application
     const api = Router() // Manejador de rutas
     
@@ -20,6 +29,7 @@ export const createApp = ({ messageModel, userModel, sessionModel, chatmessageMo
     app.use(applySession) // Middleware de json() antes de Session para poder obtener los datos de las request y poder leerlos
         
     api.use('/message', MessageRouter(messageModel))
+    api.use('/chatroom', ChatroomRouter(chatroomModel))
     api.use('/chatmessage', ChatmessageRouter(chatmessageModel))
     api.use('/auth', AuthRouter(userModel, sessionModel))
     

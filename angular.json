@@ -28,7 +28,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/frontend/public"
+                "input": "public"
               }
             ],
             "styles": [
@@ -98,7 +98,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/frontend/public"
+                "input": "public"
               }
             ],
             "styles": [

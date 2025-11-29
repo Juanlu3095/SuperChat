@@ -1,5 +1,6 @@
 import { createApp } from "./app.js"
 import { ChatmessageModel } from "./models/ChatMessageModel.js"
+import { ChatroomModel } from "./models/ChatroomModel.js"
 import { MessageModel } from "./models/MessageModel.js"
 import { SessionModel } from "./models/SessionModel.js"
 import { UserModel } from "./models/UserModel.js"
@@ -9,7 +10,8 @@ const app = createApp({
     messageModel: new MessageModel,
     userModel: new UserModel,
     sessionModel: new SessionModel,
-    chatmessageModel: new ChatmessageModel
+    chatmessageModel: new ChatmessageModel,
+    chatroomModel: new ChatroomModel
 })
 
 const server = createServerWithSockets(app, new ChatmessageModel)

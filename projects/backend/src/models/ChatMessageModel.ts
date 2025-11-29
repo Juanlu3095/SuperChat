@@ -17,10 +17,15 @@ async function chatMessageCollection() {
 
 export class ChatmessageModel {
 
-    getAll = async () => {
+    getAll = async (idRoom?: string) => {
         try {
             const collection = await chatMessageCollection()
             let result = await collection.aggregate([
+                {
+                    $match: {
+                        chatroom: new ObjectId(`${idRoom}`)
+                    }
+                },
                 {
                     $lookup: {
                         from: "users",
@@ -28,7 +33,6 @@ export class ChatmessageModel {
                         foreignField: "_id",
                         as: "username"
                     },
-                    
                 },
                 { $project: {  // Aquí indicamos qué campos debe mostrar (1) y cuáles no (0 ó no incluir)
                     username: "$username.nombre", // Hacemos que devuelve directamente el string y no el JSON
@@ -39,7 +43,7 @@ export class ChatmessageModel {
                 } },
                 { $unwind: "$username" }
             ]).toArray()
-            return result
+            return result.length === 0 ? [] : result
         } catch (error) {
             console.error(error)
             return null
@@ -75,6 +79,7 @@ export class ChatmessageModel {
             const chatMessage = {
                 userId: new ObjectId(`${chatmessageInput.userId}`), // chatmessageInput.userId,
                 content: chatmessageInput.content,
+                chatroom: new ObjectId(`${chatmessageInput.chatroom}`),
                 order: chatmessageInput.order ?? 1,
                 created_at: chatmessageInput.created_at,
                 updated_at: chatmessageInput.created_at

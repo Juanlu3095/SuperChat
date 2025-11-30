@@ -24,6 +24,10 @@ export const createServerWithSockets = (app: Express.Application, chatMessageMod
         console.log("Auth: ", socket.handshake)
         const dataSocket = socket.request.sessionID
         console.log('Socket: ', dataSocket)
+
+        socket.on('join', (room) => { // Nos unimos a la sala
+            socket.join(room)
+        })
     
         socket.on('message', (msg) => {
             console.log('Received message:', msg);

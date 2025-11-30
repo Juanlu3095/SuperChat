@@ -19,6 +19,10 @@ export class SocketLibService {
     }) // Muy importante las credenciales para que socket coja la sesión de Express
   }
 
+  joinRoom(room: string) {
+    this.socket.emit('join', room)
+  }
+
   sendMessage(message: chatMessage): void {
     this.socket.emit('message', message);
   }

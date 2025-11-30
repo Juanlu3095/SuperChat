@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthLibService } from 'auth-lib';
 import { SocketLibService } from 'socket-lib';
-import { chatMessage } from '../../../../../shared-types/src/lib/chatmessage';
+import { chatMessage, apiresponse, chatroom } from 'shared-types'
 import { ChatmessageLibService } from 'chatmessage-lib';
-import { apiresponse } from '../../../../../shared-types/src/lib/apiresponse';
-import { chatroom } from '../../../../../shared-types/src/lib/chatroom';
+import { ChatroomLibService } from 'chatroom-lib';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +31,13 @@ export class HomeComponent implements OnInit{
     })
   })
 
-  constructor(private authService: AuthLibService, private chatmessagesService: ChatmessageLibService, private socketService: SocketLibService, private router: Router) {}
+  constructor(
+    private authService: AuthLibService,
+    private chatmessagesService: ChatmessageLibService,
+    private chatroomService: ChatroomLibService,
+    private socketService: SocketLibService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getChatrooms()
@@ -55,7 +60,7 @@ export class HomeComponent implements OnInit{
   }
 
   getChatrooms () {
-    this.chatmessagesService.getChatrooms().subscribe({
+    this.chatroomService.getChatroomsByUser(this.userId).subscribe({
       next: (respuesta: apiresponse<chatroom[]>) => {
         const rooms = respuesta.data.map((room) => {
           if (!room.name) {
@@ -73,8 +78,10 @@ export class HomeComponent implements OnInit{
   }
 
   getMessagesByRoom (idChatroom: string) {
+    this.socketService.joinRoom(idChatroom)
+
     this.chatmessagesService.getChatMessages(idChatroom).subscribe({
-      next: (respuesta: any) => { // TIPAR ESTO!!
+      next: (respuesta: apiresponse<chatMessage[]>) => {
         this.idChatRoomActual = idChatroom
         this.messages = respuesta.data
       },
@@ -95,8 +102,6 @@ export class HomeComponent implements OnInit{
         order: this.messages.length + 1,
         created_at: `${fechaActual.toLocaleDateString()} ${fechaActual.getHours()}:${fechaActual.getMinutes()}`,
       }
-      console.log("Éste es el mensaje a enviar: " + message)
-      console.log("Éstos son los nuevos mensajes: ", this.messages)
       this.socketService.sendMessage(message)
       this.chatForm.reset()
     }

@@ -23,6 +23,10 @@
         "./projects/chatmessage-lib/src/public-api.ts" // desarrollo
         // "./dist/chatmessage-lib" // producción
       ],
+      "chatroom-lib": [
+        "./projects/chatroom-lib/src/public-api.ts" // desarrollo
+        // "./dist/chatroom-lib" // producción
+      ],
       "shared-types": [
         "./projects/shared-types/src/public-api.ts" // desarrollo
         // "./dist/shared-types" // producción

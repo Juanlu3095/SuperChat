@@ -78,6 +78,7 @@ export class HomeComponent implements OnInit{
   }
 
   getMessagesByRoom (idChatroom: string) {
+    this.socketService.leaveRoom(this.idChatRoomActual)
     this.socketService.joinRoom(idChatroom)
 
     this.chatmessagesService.getChatMessages(idChatroom).subscribe({

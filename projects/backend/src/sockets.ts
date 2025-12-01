@@ -33,8 +33,12 @@ export const createServerWithSockets = (app: Express.Application, chatMessageMod
             console.log('Received message:', msg);
             const result = chatMessageController.create(msg)
             if (!result) return;
-            io.emit('message', msg); // Broadcasting message to all clients
+            io.to(msg.chatroom).emit('message', msg); // Broadcasting message to all clients
         });
+
+        socket.on('leave', (room: string) => {
+            socket.rooms.delete(room) // Esto hay que verlo bien porque queremos enviar el mensaje a una sóla sala pero queremos recibir notificaciones
+        })
     
         socket.on('disconnect', () => {
             console.log('User disconnected:', socket.id);

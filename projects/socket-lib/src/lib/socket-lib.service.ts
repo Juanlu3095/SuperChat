@@ -23,6 +23,10 @@ export class SocketLibService {
     this.socket.emit('join', room)
   }
 
+  leaveRoom(room: string) {
+    this.socket.emit('leave', room)
+  }
+
   sendMessage(message: chatMessage): void {
     this.socket.emit('message', message);
   }

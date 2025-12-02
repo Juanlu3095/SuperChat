@@ -44,7 +44,9 @@ export class HomeComponent implements OnInit{
 
     this.socketService.onMessage((message: any) => {
       console.log("Nuevo mensaje: " + JSON.stringify(message))
-      this.messages.push(message)
+      if (this.idChatRoomActual === message.chatroom) { // Sólo se van a visualizar los mensajes de la sala en la que estemos
+        this.messages.push(message) // Faltaría añadir notificación y que se muestre el número de mensajes no visto en el HTML
+      }
     })
   }
 
@@ -78,7 +80,7 @@ export class HomeComponent implements OnInit{
   }
 
   getMessagesByRoom (idChatroom: string) {
-    this.socketService.leaveRoom(this.idChatRoomActual)
+    // if (this.idChatRoomActual != '') this.socketService.leaveRoom(this.idChatRoomActual) // Esto era para irse de una sala para que no me saliese mensaje
     this.socketService.joinRoom(idChatroom)
 
     this.chatmessagesService.getChatMessages(idChatroom).subscribe({

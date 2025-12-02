@@ -15,7 +15,7 @@ export const createServerWithSockets = (app: Express.Application, chatMessageMod
       cors: { origin: ACCEPTED_ORIGINS(), credentials: true } // Muy importante las credenciales para que se comparta sesión entre Socket.io y Express
     })
 
-    io.engine.use(applySession)
+    io.engine.use(applySession) // Compartimos la session con Socket.io
 
     const chatMessageController = new ChatmessageController(chatMessageModel)
 
@@ -27,6 +27,7 @@ export const createServerWithSockets = (app: Express.Application, chatMessageMod
 
         socket.on('join', (room) => { // Nos unimos a la sala
             socket.join(room)
+            console.log(`Entra el usuario ${JSON.stringify(socket.handshake.auth.username)} con socket ${socket.id}: `, socket.rooms)
         })
     
         socket.on('message', (msg) => {
@@ -37,7 +38,8 @@ export const createServerWithSockets = (app: Express.Application, chatMessageMod
         });
 
         socket.on('leave', (room: string) => {
-            socket.rooms.delete(room) // Esto hay que verlo bien porque queremos enviar el mensaje a una sóla sala pero queremos recibir notificaciones
+            socket.leave(room)
+            console.log(`Sale el usuario ${JSON.stringify(socket.handshake.auth.username)} con socket ${socket.id}: `, socket.rooms)
         })
     
         socket.on('disconnect', () => {
